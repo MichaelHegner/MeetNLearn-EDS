@@ -1,13 +1,13 @@
-package com.mnl.emanuel.concurrency.forkknife02;
+package com.mnl.emanuel.concurrency.forkknife.N02.two_thread;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.mnl.emanuel.concurrency.forkknife02.dto.Fork;
-import com.mnl.emanuel.concurrency.forkknife02.dto.Knife;
-import com.mnl.emanuel.concurrency.forkknife02.dto.Person;
-import com.mnl.emanuel.concurrency.forkknife02.dto.Table;
+import com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto.Fork;
+import com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto.Knife;
+import com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto.Person;
+import com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto.Table;
 
 /**
  * Beispiel mit zwei Threads (Main thread for application and one thread for consuming).

@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife03.dto;
+package com.mnl.emanuel.concurrency.forkknife.N01.simple.dto;
 
 import com.mnl.emanuel.concurrency.utils.ThreadUtils;
 
@@ -36,6 +36,8 @@ public class Person {
 	public String toString() {
 		return "Person [name=" + name + "]";
 	}
+	
+	
 
 
 	@Override

@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife02.dto;
+package com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto;
 
 import com.mnl.emanuel.concurrency.utils.ThreadUtils;
 

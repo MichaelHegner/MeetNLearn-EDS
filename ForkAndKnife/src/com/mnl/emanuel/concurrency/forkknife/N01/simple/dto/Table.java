@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife01.dto;
+package com.mnl.emanuel.concurrency.forkknife.N01.simple.dto;
 
 import java.util.ArrayList;
 import java.util.List;

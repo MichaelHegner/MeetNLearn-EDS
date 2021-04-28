@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife03.dto;
+package com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto;
 
 public class Knife {
 	private volatile boolean inUse;

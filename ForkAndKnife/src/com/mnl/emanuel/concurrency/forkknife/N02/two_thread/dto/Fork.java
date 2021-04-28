@@ -1,10 +1,10 @@
-package com.mnl.emanuel.concurrency.forkknife02.dto;
+package com.mnl.emanuel.concurrency.forkknife.N02.two_thread.dto;
 
-public class Knife {
+public class Fork {
 	private volatile boolean inUse;
 
 	public synchronized void use() {
-		if (inUse) throw new IllegalStateException("Knife is already in use.");
+		if (inUse) throw new IllegalStateException("Fork is already in use.");
 		this.inUse = true;
 	}
 	

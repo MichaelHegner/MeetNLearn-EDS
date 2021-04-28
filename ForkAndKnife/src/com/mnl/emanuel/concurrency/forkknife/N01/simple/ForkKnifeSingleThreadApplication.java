@@ -1,13 +1,13 @@
-package com.mnl.emanuel.concurrency.forkknife01;
+package com.mnl.emanuel.concurrency.forkknife.N01.simple;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.mnl.emanuel.concurrency.forkknife01.dto.Fork;
-import com.mnl.emanuel.concurrency.forkknife01.dto.Knife;
-import com.mnl.emanuel.concurrency.forkknife01.dto.Person;
-import com.mnl.emanuel.concurrency.forkknife01.dto.Table;
+import com.mnl.emanuel.concurrency.forkknife.N01.simple.dto.Fork;
+import com.mnl.emanuel.concurrency.forkknife.N01.simple.dto.Knife;
+import com.mnl.emanuel.concurrency.forkknife.N01.simple.dto.Person;
+import com.mnl.emanuel.concurrency.forkknife.N01.simple.dto.Table;
 
 /**
  * Iteratives Beispiel im Main Thread.

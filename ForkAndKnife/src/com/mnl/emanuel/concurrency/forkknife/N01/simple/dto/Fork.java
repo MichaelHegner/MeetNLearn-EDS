@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife02.dto;
+package com.mnl.emanuel.concurrency.forkknife.N01.simple.dto;
 
 public class Fork {
 	private volatile boolean inUse;

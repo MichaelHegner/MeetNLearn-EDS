@@ -1,4 +1,4 @@
-package com.mnl.emanuel.concurrency.forkknife03.dto;
+package com.mnl.emanuel.concurrency.forkknife.N03.multi_thread.dto;
 
 import java.util.ArrayList;
 import java.util.List;
