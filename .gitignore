@@ -1,3 +1,7 @@
 
 Pin-Generator/.classpath
 Pin-Generator/.project
+Pin-Generator/bin/*
+ForkAndKnife/.classpath
+ForkAndKnife/.project
+ForkAndKnife/bin/*
