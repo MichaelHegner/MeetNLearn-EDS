@@ -5,3 +5,6 @@ Pin-Generator/bin/*
 ForkAndKnife/.classpath
 ForkAndKnife/.project
 ForkAndKnife/bin/*
+ServerSocket/.project
+ServerSocket/.classpath
+ServerSocket/bin/*
