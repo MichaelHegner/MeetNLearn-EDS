@@ -8,3 +8,6 @@ ForkAndKnife/bin/*
 ServerSocket/.project
 ServerSocket/.classpath
 ServerSocket/bin/*
+ForkJoin/.classpath
+ForkJoin/.project
+ForkJoin/bin/*
