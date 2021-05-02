@@ -11,3 +11,6 @@ ServerSocket/bin/*
 ForkJoin/.classpath
 ForkJoin/.project
 ForkJoin/bin/*
+Scanner/.classpath
+Scanner/.project
+Scanner/bin/*
