@@ -12,8 +12,6 @@ import com.mnl.emanuel.concurrency.pin.utils.BruteForceUtils;
 import com.mnl.emanuel.concurrency.pin.utils.PinGeneratorUtils;
 
 public class PinApplication {
-	public static final int TOTAL_NUMBERS_OF_PIN = 100;
-	
 	private List<Pin> pinNumbers = new ArrayList<>();
 
 	/**
@@ -25,7 +23,7 @@ public class PinApplication {
 		
 		// Define ForkJoinPool and RecursiveAction
 		ForkJoinPool       commonPool   = ForkJoinPool.commonPool();
-		PinGeneratorAction pinGenerator = new PinGeneratorAction(pinNumbers, TOTAL_NUMBERS_OF_PIN);
+		PinGeneratorAction pinGenerator = new PinGeneratorAction(pinNumbers);
 
 		// Define Runnable Applications
 		BruteForce bruteForceApp  = new BruteForce(pinNumbers);
@@ -67,10 +65,8 @@ class PinGeneratorAction extends RecursiveAction {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String  OUTPUT_MSG_TEMPLATE       = "Create Random Pin at %s: %s";
-	private static final int     TOTAL_NUMBER_OF_PINS      = PinApplication.TOTAL_NUMBERS_OF_PIN;
+	private static final int     TOTAL_NUMBER_OF_PINS      = 100;
 	private static final int     THRESHOLD                 = 100;
-	
-//	private static AtomicInteger PIN_GENERATION_GLOBAL_POS = new AtomicInteger(0); // Atomar variable
 	
 	private int numberOfPins;
 	
@@ -80,13 +76,13 @@ class PinGeneratorAction extends RecursiveAction {
 	 */
 	private List<Pin> pinNumbers;
 
-	public PinGeneratorAction(List<Pin> pinNumbers, int numberOfPinGeneration) {
-		this.pinNumbers   = pinNumbers;
-		this.numberOfPins = numberOfPinGeneration;
-	}
-
 	public PinGeneratorAction(List<Pin> pinNumbers) {
 		this.pinNumbers = pinNumbers;
+	}
+	
+	private PinGeneratorAction(List<Pin> pinNumbers, int numberOfPinGeneration) {
+		this.pinNumbers   = pinNumbers;
+		this.numberOfPins = numberOfPinGeneration;
 	}
 	
 
