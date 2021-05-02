@@ -3,7 +3,6 @@ package com.mnl.emanuel.concurrency.pin.utils;
 import java.util.Random;
 
 import com.mnl.emanuel.concurrency.pin.dto.Pin;
-import com.mnl.emanuel.concurrency.utils.ThreadUtils;
 
 /**
  * Pin generator Utils for generating secure pin numbers.
