@@ -20,8 +20,9 @@ public class BruteForceUtils {
 	 * 
 	 * @param pin the pin to attack
 	 * @return cracked pin
+	 * @throws InterruptedException 
 	 */
-	public static String bruteForce(Pin pin) {
+	public static String bruteForce(Pin pin) throws InterruptedException {
 		Random rnd = new Random();
 		String result = "";
 		
@@ -29,7 +30,7 @@ public class BruteForceUtils {
 			int numberToFind = pin.getNumberAt(i);
 		
 			for (int c = 0; c < 10; c++) {
-				ThreadUtils.safeSleep(rnd.nextInt(100)); // Simulate expensive brute force attack
+				Thread.sleep(rnd.nextInt(100));
 				if (c == numberToFind) {
 					result += c;
 					break;

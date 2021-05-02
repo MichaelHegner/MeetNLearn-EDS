@@ -7,15 +7,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.mnl.emanuel.concurrency.pin.dto.Pin;
 import com.mnl.emanuel.concurrency.pin.utils.BruteForceUtils;
 import com.mnl.emanuel.concurrency.pin.utils.PinGeneratorUtils;
-import com.mnl.emanuel.concurrency.utils.ThreadUtils;
 
 public class PinApplication {
 	private List<Pin> pinNumbers = new ArrayList<>();
 
 	/**
 	 * Execute pin application.
+	 * 
+	 * @throws InterruptedException 
 	 */
-	private void execute() {
+	private void execute() throws InterruptedException {
 		
 		// Define Runnable Applications
 		PinGenerator pinGenerator = new PinGenerator(pinNumbers);
@@ -34,12 +35,18 @@ public class PinApplication {
 		bruteForceThread2.start();
 		Thread bruteForceThread3 = new Thread(bruteForceApp, "Bruteforce-App-03");
 		bruteForceThread3.start();
-
+		
+		pinGeneratorThread.join();
+		
+		bruteForceThread1.interrupt();
+		bruteForceThread2.interrupt();
+		bruteForceThread3.interrupt();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		System.out.println("START APPLICATION");
 		new PinApplication().execute();
+		System.out.println("FINISH APPLICATION");
 	}
 }
 
@@ -51,6 +58,7 @@ public class PinApplication {
  */
 class PinGenerator implements Runnable {
 	private static final String OUTPUT_MSG_TEMPLATE = "Create Random Pin at %s: %s";
+	private static final int NUMBER_OF_PIN_GENERATIONS = 50;
 	
 	/**
 	 * Shared resource of pin numbers.
@@ -65,17 +73,31 @@ class PinGenerator implements Runnable {
 	public void run() {
 		int index = 0;
 		
-		while (!Thread.currentThread().isInterrupted()) {
-			Pin pin = new Pin();
-			PinGeneratorUtils.createRandomPin(pin);
-			
-			synchronized (pinNumbers) {
-				pinNumbers.add(index, pin);
-				System.out.println(String.format(OUTPUT_MSG_TEMPLATE, index, pin.getPinNumber()));
-				pinNumbers.notifyAll(); // Notify all waiting threads that a new number has been generated.
+		try {
+			while (thradIsNotInterrupted() && morePinsRequired()) {
+				Pin pin = new Pin();
+				PinGeneratorUtils.createRandomPin(pin);
+				
+				synchronized (pinNumbers) {
+					pinNumbers.add(index, pin);
+					System.out.println(String.format(OUTPUT_MSG_TEMPLATE, index, pin.getPinNumber()));
+					pinNumbers.notifyAll(); // Notify all waiting threads that a new number has been generated.
+				}
+				
+				index++;
 			}
-			
-			index++;
+		} catch (InterruptedException e) {
+			System.out.println(Thread.currentThread().getName() + " is interupted!");
+		}
+	}
+
+	private boolean thradIsNotInterrupted() {
+		return !Thread.currentThread().isInterrupted();
+	}
+	
+	private boolean morePinsRequired() {
+		synchronized (pinNumbers) {
+			return pinNumbers.size() <= NUMBER_OF_PIN_GENERATIONS;
 		}
 	}
 }
@@ -87,6 +109,7 @@ class PinGenerator implements Runnable {
  *
  */
 class BruteForce implements Runnable {
+	private static final int     MILLIS_TO_WAIT         = 2_000;
 	private static AtomicInteger BRUTE_FORCE_GLOBAL_POS = new AtomicInteger(0); // Atomar variable
 
 	private List<Pin> pinNumbers; // Shared Resource
@@ -104,35 +127,47 @@ class BruteForce implements Runnable {
 	public void run() {
 		String threadName = Thread.currentThread().getName();
 		
-		while (!Thread.currentThread().isInterrupted()) {
-			
-			Pin pin            = null;
-			Integer workingPos = null;
-
-			/**
-			 * Synchronized Block: Keep it small and avoid expensive logic inside.
-			 * (That's why brute force attack is not inside of the block.) 
-			 * 
-			 * For learning Reasons try out application when adding brute force attack into synchronized block.
-			 */
-			synchronized (pinNumbers) {
-				if (BRUTE_FORCE_GLOBAL_POS.get() < pinNumbers.size()) {
-					workingPos = BRUTE_FORCE_GLOBAL_POS.getAndIncrement();
-					pin = pinNumbers.get(workingPos);
-				} else {
-					System.out.println(threadName + ": Wait for new pin number.");
-					ThreadUtils.safeWait(pinNumbers); // obj.wait() => wait for notification.
+		try {
+			while (threadIsNotInterrupted() || notAllPinsCracked() ) {
+				
+				Pin pin            = null;
+				Integer workingPos = null;
+	
+				/**
+				 * Synchronized Block: Keep it small and avoid expensive logic inside.
+				 * (That's why brute force attack is not inside of the block.) 
+				 * 
+				 * For learning Reasons try out application when adding brute force attack into synchronized block.
+				 */
+				synchronized (pinNumbers) {
+					if (notAllPinsCracked()) {
+						workingPos = BRUTE_FORCE_GLOBAL_POS.getAndIncrement();
+						pin = pinNumbers.get(workingPos);
+					} else if (threadIsNotInterrupted()) {
+						System.out.println(threadName + ": Wait for new pin number.");
+						pinNumbers.wait(MILLIS_TO_WAIT);
+					}
+				}
+	
+				/**
+				 * This logic is only interesting in case pin and working position have valid values. 
+				 */
+				if (null != pin && null != workingPos) {
+					String crackedPin = BruteForceUtils.bruteForce(pin);
+					System.out.println(String.format("Cracked Pin by %s at %s: %s", threadName, workingPos, crackedPin));
 				}
 			}
-
-			/**
-			 * This logic is only interesting in case pin and working position have valid values. 
-			 */
-			if (null != pin && null != workingPos) {
-				String crackedPin = BruteForceUtils.bruteForce(pin);
-				System.out.println(String.format("Cracked Pin by %s at %s: %s", threadName, workingPos, crackedPin));
-			}
+		} catch (InterruptedException e) {
+			System.out.println(Thread.currentThread().getName() + " is interupted!");
 		}
+	}
+
+	private boolean threadIsNotInterrupted() {
+		return !Thread.currentThread().isInterrupted();
+	}
+	
+	private boolean notAllPinsCracked() {
+		return BRUTE_FORCE_GLOBAL_POS.get() < pinNumbers.size();
 	}
 	
 	

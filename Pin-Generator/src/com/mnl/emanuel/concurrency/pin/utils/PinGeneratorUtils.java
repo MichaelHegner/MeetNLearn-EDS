@@ -19,12 +19,13 @@ public class PinGeneratorUtils {
 	 * Simulates a secure pin number generation.
 	 * 
 	 * @param pin the pin object to fill with a secure pin number.
+	 * @throws InterruptedException 
 	 */
-	public static void createRandomPin(Pin pin) {
+	public static void createRandomPin(Pin pin) throws InterruptedException {
 		Random rnd = new Random();
 		
 		for (int i = 0; i < Pin.NUMBERS; i++) {
-			ThreadUtils.safeSleep(rnd.nextInt(250)); // Simulate expensive number finding
+			Thread.sleep(rnd.nextInt(250));
 			int randomNumber = rnd.nextInt(10);
 			pin.setNumberAt(i, randomNumber);
 		}
