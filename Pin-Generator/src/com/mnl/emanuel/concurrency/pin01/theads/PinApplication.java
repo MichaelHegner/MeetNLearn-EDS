@@ -74,7 +74,7 @@ class PinGenerator implements Runnable {
 		int index = 0;
 		
 		try {
-			while (thradIsNotInterrupted() && morePinsRequired()) {
+			while (threadIsNotInterrupted() && morePinsRequired()) {
 				Pin pin = new Pin();
 				PinGeneratorUtils.createRandomPin(pin);
 				
@@ -91,13 +91,13 @@ class PinGenerator implements Runnable {
 		}
 	}
 
-	private boolean thradIsNotInterrupted() {
+	private boolean threadIsNotInterrupted() {
 		return !Thread.currentThread().isInterrupted();
 	}
 	
 	private boolean morePinsRequired() {
 		synchronized (pinNumbers) {
-			return pinNumbers.size() <= NUMBER_OF_PIN_GENERATIONS;
+			return pinNumbers.size() < NUMBER_OF_PIN_GENERATIONS;
 		}
 	}
 }
