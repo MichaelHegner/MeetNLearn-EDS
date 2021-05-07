@@ -55,9 +55,10 @@ public class CalculateDivisor {
 			callables.add(new DivisorCalculator(i));
 		}
 		
+		List<Future<Integer>> results = es.invokeAll(callables);
+
 		long number      = Integer.MIN_VALUE;
 		int  maxDivisors = Integer.MIN_VALUE; 
-		List<Future<Integer>> results = es.invokeAll(callables);
 		for (int i = 0; i < results.size(); i++) {
 			Integer result = results.get(i).get();
 			if (result > maxDivisors) {
@@ -88,7 +89,7 @@ public class CalculateDivisor {
 }
 
 /**
- * H�lt das Ergebnis einer Berechnung
+ * Hält das Ergebnis einer Berechnung
  * 
  * @author bele
  * 

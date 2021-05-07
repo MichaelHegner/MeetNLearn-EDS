@@ -75,7 +75,7 @@ public class CalculateDivisor {
 }
 
 /**
- * H�lt das Ergebnis einer Berechnung
+ * Hält das Ergebnis einer Berechnung
  * 
  * @author bele
  * 
@@ -128,8 +128,5 @@ class DivisorCalculator {
 		Thread.sleep(1);
 		return numberOfDivisors;
 	}
-	
-	
-	private DivisorCalculator() {}
 }
 
